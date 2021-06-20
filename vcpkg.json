@@ -1,0 +1,17 @@
+{
+  "name": "bakawaitanywhere",
+  "version-string": "1.0.0",
+  "description": "A F4SE plugin that enables waiting anywhere.",
+  "homepage": "https://github.com/shad0wshayd3/BakaWaitAnywhere",
+  "license": "MIT",
+  "dependencies": [
+    "autotoml",
+    "boost-iostreams",
+    "boost-iterator",
+    "boost-predef",
+    "boost-stl-interfaces",
+    "spdlog",
+    "tomlplusplus",
+    "xbyak"
+  ]
+}

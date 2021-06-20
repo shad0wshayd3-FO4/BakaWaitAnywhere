@@ -1,0 +1,9 @@
+set(SOURCES
+	src/Forms/Forms.h
+	src/PCH.cpp
+	src/PCH.h
+	src/Scripts/Papyrus.h
+	src/Scripts/Papyrus/BakaWaitAnywhere.h
+	src/Settings.h
+	src/main.cpp
+)
