@@ -15,19 +15,40 @@ namespace WaitAnywhere
 		inline REL::Relocation<RE::SettingT<RE::GameSettingCollection>*> sNoWaitTakingHealthDamage{ REL::ID(664041) };
 		inline REL::Relocation<RE::SettingT<RE::GameSettingCollection>*> sNoWaitTakingRadDamage{ REL::ID(1321782) };
 		inline REL::Relocation<RE::SettingT<RE::GameSettingCollection>*> sNoWaitWhileAlarm{ REL::ID(397715) };
-	}
 
-	bool DFOBtoGLOB(RE::BGSDefaultObject* a_dfob)
-	{
-		if (a_dfob)
+		bool DFOBtoGLOB(RE::BGSDefaultObject* a_dfob)
 		{
-			if (auto glob = a_dfob->GetForm<RE::TESGlobal>(); glob)
+			if (a_dfob)
 			{
-				return glob->GetValue();
+				if (auto glob = a_dfob->GetForm<RE::TESGlobal>(); glob)
+				{
+					return glob->GetValue();
+				}
 			}
+
+			return false;
 		}
 
-		return false;
+		bool GetBlockingMenuOpen(std::vector<std::string> a_menus)
+		{
+			if (auto UI = RE::UI::GetSingleton(); UI)
+			{
+				if (UI->menuMode > 0)
+				{
+					return true;
+				}
+
+				for (auto menu : a_menus)
+				{
+					if (UI->GetMenuOpen(menu))
+					{
+						return true;
+					}
+				}
+			}
+
+			return false;
+		};
 	}
 
 	bool CanPassTime()
@@ -44,6 +65,18 @@ namespace WaitAnywhere
 				"UIMenuCancel",
 				true,
 				true);
+			return false;
+		}
+
+		if (GetBlockingMenuOpen({ "CookingMenu", "DialogueMenu", "FavoritesMenu", "PowerArmorModMenu", "RobotModMenu", "VATSMenu", "WorkshopMenu" }))
+		{
+			/*
+			RE::SendHUDMessage::ShowHUDMessage(
+				sNoWaitDefault->GetString().data(),
+				"UIMenuCancel",
+				true,
+				true);
+			*/
 			return false;
 		}
 
@@ -144,13 +177,11 @@ namespace WaitAnywhere
 
 		if (SynchedAnimManager->IsReferenceInSynchronizedScene(PlayerCharacter->GetHandle()))
 		{
-			/*
 			RE::SendHUDMessage::ShowHUDMessage(
 				sNoWaitDefault->GetString().data(),
 				"UIMenuCancel",
 				true,
 				true);
-			*/
 			return false;
 		}
 
