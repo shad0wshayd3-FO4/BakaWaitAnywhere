@@ -35,7 +35,7 @@ set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL" CACHE 
 
 project(
 	BakaWaitAnywhere
-	VERSION 1.1.0
+	VERSION 1.2.0
 	LANGUAGES CXX
 )
 
