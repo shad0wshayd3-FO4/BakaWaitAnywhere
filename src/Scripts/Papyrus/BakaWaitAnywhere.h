@@ -68,7 +68,16 @@ namespace WaitAnywhere
 			return false;
 		}
 
-		if (GetBlockingMenuOpen({ "CookingMenu", "DialogueMenu", "ExamineMenu", "FavoritesMenu", "PowerArmorModMenu", "RobotModMenu", "VATSMenu", "WorkshopMenu" }))
+		if (GetBlockingMenuOpen(
+				{ "CookingMenu",
+				  "DialogueMenu",
+				  "ExamineMenu",
+				  "FavoritesMenu",
+				  "LooksMenu",
+				  "PowerArmorModMenu",
+				  "RobotModMenu",
+				  "VATSMenu",
+				  "WorkshopMenu" }))
 		{
 			/*
 			RE::SendHUDMessage::ShowHUDMessage(

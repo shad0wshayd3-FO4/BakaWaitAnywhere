@@ -20,7 +20,7 @@ if (DEFINED VCPKG_ROOT)
 	set(CMAKE_TOOLCHAIN_FILE "${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake" CACHE STRING "")
 	set(VCPKG_OVERLAY_PORTS "${CMAKE_CURRENT_SOURCE_DIR}/ports" CACHE STRING "")
 	set(VCPKG_OVERLAY_TRIPLETS "${CMAKE_CURRENT_SOURCE_DIR}/triplets" CACHE STRING "")
-	set(VCPKG_TARGET_TRIPLET "x64-windows-static-md-custom" CACHE STRING "")
+	set(VCPKG_TARGET_TRIPLET "x64-windows-static-md-baka" CACHE STRING "")
 else ()
 	message(
 		WARNING
@@ -35,7 +35,7 @@ set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL" CACHE 
 
 project(
 	BakaWaitAnywhere
-	VERSION 1.2.0
+	VERSION 1.3.0
 	LANGUAGES CXX
 )
 
@@ -182,9 +182,6 @@ if (MSVC)
 			/Zc:tlsGuards
 			/Zc:trigraphs	# Trigraphs Substitution
 			/Zc:wchar_t	# wchar_t Is Native Type
-
-			/external:anglebrackets
-			/external:W0
 
 			/W4	# Warning level
 			/WX	# Warning level (warnings are errors)
