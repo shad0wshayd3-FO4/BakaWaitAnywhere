@@ -1,9 +1,9 @@
-set(SOURCES
-	src/Forms/Forms.h
-	src/PCH.cpp
-	src/PCH.h
-	src/Scripts/Papyrus.h
-	src/Scripts/Papyrus/BakaWaitAnywhere.h
-	src/Settings.h
-	src/main.cpp
+set(SOURCE_FILES
+	${ROOT_DIR}/src/c++/Forms/Forms.h
+	${ROOT_DIR}/src/c++/PCH.cpp
+	${ROOT_DIR}/src/c++/PCH.h
+	${ROOT_DIR}/src/c++/Scripts/Papyrus.h
+	${ROOT_DIR}/src/c++/Scripts/Papyrus/BakaWaitAnywhere.h
+	${ROOT_DIR}/src/c++/Settings.h
+	${ROOT_DIR}/src/c++/main.cpp
 )
