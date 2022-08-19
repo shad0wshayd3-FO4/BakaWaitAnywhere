@@ -56,7 +56,7 @@ namespace WaitAnywhere
 		auto PlayerCharacter = RE::PlayerCharacter::GetSingleton();
 		auto ProcessLists = RE::ProcessLists::GetSingleton();
 		auto SynchedAnimManager = RE::BGSSynchronizedAnimationManager::GetSingleton();
-		
+
 		if (!PlayerCharacter || !ProcessLists || !SynchedAnimManager)
 		{
 			logger::warn("WaitAnywhere::CanPassTime: Failed to GetSingleton."sv);
