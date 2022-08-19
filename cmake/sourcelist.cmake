@@ -1,9 +1,0 @@
-set(SOURCE_FILES
-	${ROOT_DIR}/src/c++/Forms/Forms.h
-	${ROOT_DIR}/src/c++/PCH.cpp
-	${ROOT_DIR}/src/c++/PCH.h
-	${ROOT_DIR}/src/c++/Scripts/Papyrus.h
-	${ROOT_DIR}/src/c++/Scripts/Papyrus/BakaWaitAnywhere.h
-	${ROOT_DIR}/src/c++/Settings.h
-	${ROOT_DIR}/src/c++/main.cpp
-)

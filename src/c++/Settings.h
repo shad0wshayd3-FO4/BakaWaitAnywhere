@@ -1,17 +1,24 @@
 #pragma once
 
-class Settings
+namespace Settings
 {
-public:
-	using ISetting = AutoTOML::ISetting;
-	using bSetting = AutoTOML::bSetting;
+	namespace
+	{
+		using bSetting = AutoTOML::bSetting;
+		using ISetting = AutoTOML::ISetting;
+	}
 
-	static void Load()
+	namespace General
+	{
+		inline bSetting EnableDebugLogging{ "General"s, "EnableDebugLogging"s, false };
+	}
+
+	inline void Load()
 	{
 		try
 		{
 			const auto table = toml::parse_file(
-				fmt::format(FMT_STRING("Data/F4SE/Plugins/{}.toml"), Plugin::NAME));
+				fmt::format(FMT_STRING("Data/F4SE/Plugins/{:s}.toml"sv), Version::PROJECT));
 			for (const auto& setting : ISetting::get_settings())
 			{
 				setting->load(table);
@@ -24,7 +31,7 @@ public:
 				<< "Error parsing file \'" << *e.source().path << "\':\n"
 				<< '\t' << e.description() << '\n'
 				<< "\t\t(" << e.source().begin << ')';
-			logger::error(ss.str());
+			logger::error(FMT_STRING("{:s}"sv), ss.str());
 			stl::report_and_fail("Failed to load settings."sv);
 		}
 		catch (const std::exception& e)
@@ -36,16 +43,4 @@ public:
 			stl::report_and_fail("Unknown failure."sv);
 		}
 	}
-
-	static inline bSetting EnableDebugLogging{ "General"s, "EnableDebugLogging"s, false };
-
-private:
-	Settings() = delete;
-	Settings(const Settings&) = delete;
-	Settings(Settings&&) = delete;
-
-	~Settings() = delete;
-
-	Settings& operator=(const Settings&) = delete;
-	Settings& operator=(Settings&&) = delete;
-};
+}
