@@ -48,7 +48,7 @@ private:
 	}
 
 	// members
-	static inline RE::BGSDefaultObject* UnarmedPlayerWeapon_DO{ nullptr };
+	inline static RE::BGSDefaultObject* UnarmedPlayerWeapon_DO{ nullptr };
 
 public:
 	static void InstallHooks()
@@ -58,10 +58,10 @@ public:
 	}
 
 	// members
-	static inline RE::BGSDefaultObject* BWA_bEnabled_DO{ nullptr };
-	static inline RE::BGSDefaultObject* BWA_bOverrideInAir_DO{ nullptr };
-	static inline RE::BGSDefaultObject* BWA_bOverrideInCombat_DO{ nullptr };
-	static inline RE::BGSDefaultObject* BWA_bOverrideTrespassing_DO{ nullptr };
-	static inline RE::BGSDefaultObject* BWA_bOverrideTakingHealthDamage_DO{ nullptr };
-	static inline RE::BGSDefaultObject* BWA_bOverrideTakingRadDamage_DO{ nullptr };
+	inline static RE::BGSDefaultObject* BWA_bEnabled_DO{ nullptr };
+	inline static RE::BGSDefaultObject* BWA_bOverrideInAir_DO{ nullptr };
+	inline static RE::BGSDefaultObject* BWA_bOverrideInCombat_DO{ nullptr };
+	inline static RE::BGSDefaultObject* BWA_bOverrideTrespassing_DO{ nullptr };
+	inline static RE::BGSDefaultObject* BWA_bOverrideTakingHealthDamage_DO{ nullptr };
+	inline static RE::BGSDefaultObject* BWA_bOverrideTakingRadDamage_DO{ nullptr };
 };
