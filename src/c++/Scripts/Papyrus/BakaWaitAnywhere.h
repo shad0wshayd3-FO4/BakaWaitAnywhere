@@ -20,7 +20,7 @@ namespace WaitAnywhere
 		{
 			if (a_dfob)
 			{
-				if (auto glob = a_dfob->GetForm<RE::TESGlobal>(); glob)
+				if (auto glob = a_dfob->GetForm<RE::TESGlobal>())
 				{
 					return glob->GetValue();
 				}
@@ -31,14 +31,14 @@ namespace WaitAnywhere
 
 		bool GetBlockingMenuOpen(std::vector<std::string> a_menus)
 		{
-			if (auto UI = RE::UI::GetSingleton(); UI)
+			if (auto UI = RE::UI::GetSingleton())
 			{
 				if (UI->menuMode > 0)
 				{
 					return true;
 				}
 
-				for (auto menu : a_menus)
+				for (auto& menu : a_menus)
 				{
 					if (UI->GetMenuOpen(menu))
 					{
@@ -74,6 +74,7 @@ namespace WaitAnywhere
 		          "ExamineMenu",
 		          "FavoritesMenu",
 		          "LooksMenu",
+		          "PipboyMenu",
 		          "PowerArmorModMenu",
 		          "RobotModMenu",
 		          "VATSMenu",
@@ -89,7 +90,8 @@ namespace WaitAnywhere
 			return false;
 		}
 
-		if (PlayerCharacter->GetParentCell()->GetCantWaitHere())
+		if (PlayerCharacter->GetParentCell()
+		    && PlayerCharacter->GetParentCell()->GetCantWaitHere())
 		{
 			RE::SendHUDMessage::ShowHUDMessage(
 				sNoWaitInCell->GetString().data(),
@@ -101,7 +103,8 @@ namespace WaitAnywhere
 
 		if (!DFOBtoGLOB(Forms::BWA_bOverrideTrespassing_DO))
 		{
-			if (PlayerCharacter->boolFlags.any(RE::Actor::BOOL_FLAGS::kIsTresspassing))
+			if (PlayerCharacter->boolFlags.any(
+					RE::Actor::BOOL_FLAGS::kIsTresspassing))
 			{
 				RE::SendHUDMessage::ShowHUDMessage(
 					sNoWaitTrespass->GetString().data(),
@@ -111,7 +114,9 @@ namespace WaitAnywhere
 				return false;
 			}
 
-			if (PlayerCharacter->GetParentCell()->cellFlags.any(RE::TESObjectCELL::Flag::kWarnToLeave))
+			if (PlayerCharacter->GetParentCell()
+			    && PlayerCharacter->GetParentCell()->cellFlags.any(
+					RE::TESObjectCELL::Flag::kWarnToLeave))
 			{
 				RE::SendHUDMessage::ShowHUDMessage(
 					sNoWaitWarnToLeave->GetString().data(),
@@ -137,7 +142,10 @@ namespace WaitAnywhere
 
 		if (!DFOBtoGLOB(Forms::BWA_bOverrideInCombat_DO))
 		{
-			if (ProcessLists->IsActorTargetingREFinPackage(PlayerCharacter, RE::PTYPE::kAlarm, false))
+			if (ProcessLists->IsActorTargetingREFinPackage(
+					PlayerCharacter,
+					RE::PTYPE::kAlarm,
+					false))
 			{
 				RE::SendHUDMessage::ShowHUDMessage(
 					sNoWaitWhileAlarm->GetString().data(),
@@ -184,7 +192,8 @@ namespace WaitAnywhere
 			}
 		}
 
-		if (SynchedAnimManager->IsReferenceInSynchronizedScene(PlayerCharacter->GetHandle()))
+		if (SynchedAnimManager->IsReferenceInSynchronizedScene(
+				RE::PlayerCharacter::GetPlayerHandle()))
 		{
 			RE::SendHUDMessage::ShowHUDMessage(
 				sNoWaitDefault->GetString().data(),
@@ -202,10 +211,10 @@ namespace Papyrus::BakaWaitAnywhere
 {
 	void Wait(std::monostate)
 	{
-		if (WaitAnywhere::DFOBtoGLOB(Forms::BWA_bEnabled_DO) && WaitAnywhere::CanPassTime())
+		if (WaitAnywhere::DFOBtoGLOB(Forms::BWA_bEnabled_DO)
+		    && WaitAnywhere::CanPassTime())
 		{
-			auto UIMessageQueue = RE::UIMessageQueue::GetSingleton();
-			if (UIMessageQueue)
+			if (auto UIMessageQueue = RE::UIMessageQueue::GetSingleton())
 			{
 				UIMessageQueue->AddMessage(
 					"SleepWaitMenu"sv,
