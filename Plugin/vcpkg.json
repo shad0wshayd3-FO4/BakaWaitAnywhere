@@ -1,0 +1,14 @@
+{
+    "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
+    "name": "bakaplugintemplate",
+    "homepage": "https://github.com/shad0wshayd3-FO4/BakaPluginTemplate",
+    "dependencies": [
+        "boost-stl-interfaces",
+        "nlohmann-json",
+        "rsm-mmio",
+        "simpleini",
+        "spdlog",
+        "tomlplusplus",
+        "xbyak"
+    ]
+}
