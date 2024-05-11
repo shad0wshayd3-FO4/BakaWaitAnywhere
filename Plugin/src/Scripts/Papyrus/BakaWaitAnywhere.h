@@ -90,8 +90,7 @@ namespace WaitAnywhere
 			return false;
 		}
 
-		if (PlayerCharacter->GetParentCell()
-		    && PlayerCharacter->GetParentCell()->GetCantWaitHere())
+		if (PlayerCharacter->GetParentCell() && PlayerCharacter->GetParentCell()->GetCantWaitHere())
 		{
 			RE::SendHUDMessage::ShowHUDMessage(
 				sNoWaitInCell->GetString().data(),
@@ -114,9 +113,8 @@ namespace WaitAnywhere
 				return false;
 			}
 
-			if (PlayerCharacter->GetParentCell()
-			    && PlayerCharacter->GetParentCell()->cellFlags.any(
-					RE::TESObjectCELL::Flag::kWarnToLeave))
+			if (PlayerCharacter->GetParentCell() && PlayerCharacter->GetParentCell()->cellFlags.any(
+														RE::TESObjectCELL::Flag::kWarnToLeave))
 			{
 				RE::SendHUDMessage::ShowHUDMessage(
 					sNoWaitWarnToLeave->GetString().data(),
@@ -211,8 +209,7 @@ namespace Papyrus::BakaWaitAnywhere
 {
 	void Wait(std::monostate)
 	{
-		if (WaitAnywhere::DFOBtoGLOB(Forms::BWA_bEnabled_DO)
-		    && WaitAnywhere::CanPassTime())
+		if (WaitAnywhere::DFOBtoGLOB(Forms::BWA_bEnabled_DO) && WaitAnywhere::CanPassTime())
 		{
 			if (auto UIMessageQueue = RE::UIMessageQueue::GetSingleton())
 			{
