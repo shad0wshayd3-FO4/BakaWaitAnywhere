@@ -2,17 +2,9 @@
 
 class Forms
 {
-private:
-	static std::uint32_t HookInitializer_DefaultObject()
+public:
+	static void Install()
 	{
-		// Initializer Override
-		UnarmedPlayerWeapon_DO =
-			RE::DefaultObjectFormFactory::Create(
-				"UnarmedPlayerWeapon_DO",
-				"The unarmed weapon used to calculate the player's displayed attack stats when no weapon is equipped.",
-				RE::ENUM_FORM_ID::kWEAP);
-
-		// Add new
 		BWA_bEnabled_DO =
 			RE::DefaultObjectFormFactory::Create(
 				"BWA_bEnabled_DO",
@@ -43,18 +35,7 @@ private:
 				"BWA_bOverrideTakingRadDamage_DO",
 				RE::ENUM_FORM_ID::kGLOB);
 
-		logger::debug("Injected DefaultObjects"sv);
-		return 1;
-	}
-
-	// members
-	inline static RE::BGSDefaultObject* UnarmedPlayerWeapon_DO{ nullptr };
-
-public:
-	static void InstallHooks()
-	{
-		REL::Relocation<std::uintptr_t> targetDefault{ REL::ID(1158572) };
-		stl::asm_replace(targetDefault.address(), 0x31, reinterpret_cast<std::uintptr_t>(HookInitializer_DefaultObject));
+		DEBUG("Injected DefaultObjects"sv);
 	}
 
 	// members

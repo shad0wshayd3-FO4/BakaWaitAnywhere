@@ -6,27 +6,25 @@ namespace WaitAnywhere
 {
 	namespace
 	{
-		inline REL::Relocation<RE::SettingT<RE::GameSettingCollection>*> sNoWaitDefault{ REL::ID(1461952) };
-		inline REL::Relocation<RE::SettingT<RE::GameSettingCollection>*> sNoWaitTrespass{ REL::ID(537900) };
-		inline REL::Relocation<RE::SettingT<RE::GameSettingCollection>*> sNoWaitWarnToLeave{ REL::ID(1195909) };
-		inline REL::Relocation<RE::SettingT<RE::GameSettingCollection>*> sNoWaitHostileActorsNear{ REL::ID(271800) };
-		inline REL::Relocation<RE::SettingT<RE::GameSettingCollection>*> sNoWaitInAir{ REL::ID(929759) };
-		inline REL::Relocation<RE::SettingT<RE::GameSettingCollection>*> sNoWaitInCell{ REL::ID(5072) };
-		inline REL::Relocation<RE::SettingT<RE::GameSettingCollection>*> sNoWaitTakingHealthDamage{ REL::ID(664041) };
-		inline REL::Relocation<RE::SettingT<RE::GameSettingCollection>*> sNoWaitTakingRadDamage{ REL::ID(1321782) };
-		inline REL::Relocation<RE::SettingT<RE::GameSettingCollection>*> sNoWaitWhileAlarm{ REL::ID(397715) };
+		inline static REL::Relocation<RE::SettingT<RE::GameSettingCollection>*> sNoWaitDefault{ REL::ID(1461952) };
+		inline static REL::Relocation<RE::SettingT<RE::GameSettingCollection>*> sNoWaitTrespass{ REL::ID(537900) };
+		inline static REL::Relocation<RE::SettingT<RE::GameSettingCollection>*> sNoWaitWarnToLeave{ REL::ID(1195909) };
+		inline static REL::Relocation<RE::SettingT<RE::GameSettingCollection>*> sNoWaitHostileActorsNear{ REL::ID(271800) };
+		inline static REL::Relocation<RE::SettingT<RE::GameSettingCollection>*> sNoWaitInAir{ REL::ID(929759) };
+		inline static REL::Relocation<RE::SettingT<RE::GameSettingCollection>*> sNoWaitInCell{ REL::ID(5072) };
+		inline static REL::Relocation<RE::SettingT<RE::GameSettingCollection>*> sNoWaitTakingHealthDamage{ REL::ID(664041) };
+		inline static REL::Relocation<RE::SettingT<RE::GameSettingCollection>*> sNoWaitTakingRadDamage{ REL::ID(1321782) };
+		inline static REL::Relocation<RE::SettingT<RE::GameSettingCollection>*> sNoWaitWhileAlarm{ REL::ID(397715) };
 
-		bool DFOBtoGLOB(RE::BGSDefaultObject* a_dfob)
+		bool GetGlobalValue(RE::BGSDefaultObject* a_defaultObject)
 		{
-			if (a_dfob)
+			if (!a_defaultObject)
 			{
-				if (auto glob = a_dfob->GetForm<RE::TESGlobal>())
-				{
-					return glob->GetValue();
-				}
+				return false;
 			}
 
-			return false;
+			auto global = a_defaultObject->GetForm<RE::TESGlobal>();
+			return global ? global->GetValue() : false;
 		}
 
 		bool GetBlockingMenuOpen(std::vector<std::string> a_menus)
@@ -59,7 +57,7 @@ namespace WaitAnywhere
 
 		if (!PlayerCharacter || !ProcessLists || !SynchedAnimManager)
 		{
-			logger::warn("WaitAnywhere::CanPassTime: Failed to GetSingleton."sv);
+			WARN("WaitAnywhere::CanPassTime: Failed to GetSingleton."sv);
 			RE::SendHUDMessage::ShowHUDMessage(
 				sNoWaitDefault->GetString().data(),
 				"UIMenuCancel",
@@ -80,17 +78,11 @@ namespace WaitAnywhere
 		          "VATSMenu",
 		          "WorkshopMenu" }))
 		{
-			/*
-			RE::SendHUDMessage::ShowHUDMessage(
-				sNoWaitDefault->GetString().data(),
-				"UIMenuCancel",
-				true,
-				true);
-			*/
 			return false;
 		}
 
-		if (PlayerCharacter->GetParentCell() && PlayerCharacter->GetParentCell()->GetCantWaitHere())
+		if (PlayerCharacter->GetParentCell() &&
+		    PlayerCharacter->GetParentCell()->GetCantWaitHere())
 		{
 			RE::SendHUDMessage::ShowHUDMessage(
 				sNoWaitInCell->GetString().data(),
@@ -100,10 +92,9 @@ namespace WaitAnywhere
 			return false;
 		}
 
-		if (!DFOBtoGLOB(Forms::BWA_bOverrideTrespassing_DO))
+		if (!GetGlobalValue(Forms::BWA_bOverrideTrespassing_DO))
 		{
-			if (PlayerCharacter->boolFlags.any(
-					RE::Actor::BOOL_FLAGS::kIsTresspassing))
+			if (PlayerCharacter->boolFlags.any(RE::Actor::BOOL_FLAGS::kIsTresspassing))
 			{
 				RE::SendHUDMessage::ShowHUDMessage(
 					sNoWaitTrespass->GetString().data(),
@@ -113,8 +104,8 @@ namespace WaitAnywhere
 				return false;
 			}
 
-			if (PlayerCharacter->GetParentCell() && PlayerCharacter->GetParentCell()->cellFlags.any(
-														RE::TESObjectCELL::Flag::kWarnToLeave))
+			if (PlayerCharacter->GetParentCell() &&
+			    PlayerCharacter->GetParentCell()->cellFlags.any(RE::TESObjectCELL::Flag::kWarnToLeave))
 			{
 				RE::SendHUDMessage::ShowHUDMessage(
 					sNoWaitWarnToLeave->GetString().data(),
@@ -125,7 +116,7 @@ namespace WaitAnywhere
 			}
 		}
 
-		if (!DFOBtoGLOB(Forms::BWA_bOverrideInAir_DO))
+		if (!GetGlobalValue(Forms::BWA_bOverrideInAir_DO))
 		{
 			if (PlayerCharacter->IsJumping())
 			{
@@ -138,7 +129,7 @@ namespace WaitAnywhere
 			}
 		}
 
-		if (!DFOBtoGLOB(Forms::BWA_bOverrideInCombat_DO))
+		if (!GetGlobalValue(Forms::BWA_bOverrideInCombat_DO))
 		{
 			if (ProcessLists->IsActorTargetingREFinPackage(
 					PlayerCharacter,
@@ -164,7 +155,7 @@ namespace WaitAnywhere
 			}
 		}
 
-		if (!DFOBtoGLOB(Forms::BWA_bOverrideTakingHealthDamage_DO))
+		if (!GetGlobalValue(Forms::BWA_bOverrideTakingHealthDamage_DO))
 		{
 			if (PlayerCharacter->IsTakingHealthDamageFromActiveEffect())
 			{
@@ -177,7 +168,7 @@ namespace WaitAnywhere
 			}
 		}
 
-		if (!DFOBtoGLOB(Forms::BWA_bOverrideTakingRadDamage_DO))
+		if (!GetGlobalValue(Forms::BWA_bOverrideTakingRadDamage_DO))
 		{
 			if (PlayerCharacter->IsTakingRadDamageFromActiveEffect())
 			{
@@ -209,7 +200,7 @@ namespace Papyrus::BakaWaitAnywhere
 {
 	void Wait(std::monostate)
 	{
-		if (WaitAnywhere::DFOBtoGLOB(Forms::BWA_bEnabled_DO) && WaitAnywhere::CanPassTime())
+		if (WaitAnywhere::GetGlobalValue(Forms::BWA_bEnabled_DO) && WaitAnywhere::CanPassTime())
 		{
 			if (auto UIMessageQueue = RE::UIMessageQueue::GetSingleton())
 			{
