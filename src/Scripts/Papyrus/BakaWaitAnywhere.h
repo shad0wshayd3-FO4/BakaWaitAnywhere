@@ -57,7 +57,7 @@ namespace WaitAnywhere
 
 		if (!PlayerCharacter || !ProcessLists || !SynchedAnimManager)
 		{
-			WARN("WaitAnywhere::CanPassTime: Failed to GetSingleton."sv);
+			F4SE::log::warn("WaitAnywhere::CanPassTime: Failed to GetSingleton."sv);
 			RE::SendHUDMessage::ShowHUDMessage(
 				sNoWaitDefault->GetString().data(),
 				"UIMenuCancel",

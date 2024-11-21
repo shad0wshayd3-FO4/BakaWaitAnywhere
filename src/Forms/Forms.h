@@ -35,7 +35,7 @@ public:
 				"BWA_bOverrideTakingRadDamage_DO",
 				RE::ENUM_FORM_ID::kGLOB);
 
-		DEBUG("Injected DefaultObjects"sv);
+		F4SE::log::debug("Injected DefaultObjects"sv);
 	}
 
 	// members
